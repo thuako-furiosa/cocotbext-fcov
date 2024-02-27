@@ -21,9 +21,13 @@ def get_coverage_models(cov_file):
             if isinstance(value, CoverageModel):
                 coverage_models[attr] = value
             elif isinstance(value, Iterable):
-                model_list = [(i, m) for i, m in enumerate(value) if isinstance(m, CoverageModel)]
-                if model_list:
-                    coverage_models[attr] = model_list
+                try:
+                    model_list = [(i, m) for i, m in enumerate(value) if isinstance(m, CoverageModel)]
+                except TypeError as e:
+                    continue
+                else:
+                    if len(model_list) != 0:
+                        coverage_models[attr] = model_list
     return coverage_models
 
 
